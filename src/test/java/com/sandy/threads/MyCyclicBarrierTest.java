@@ -4,9 +4,6 @@ import java.util.Random;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 
-/**
- * Created by gondals on 18/10/16.
- */
 public class MyCyclicBarrierTest {
     private static final int NO_OF_THREADS = 5;
 

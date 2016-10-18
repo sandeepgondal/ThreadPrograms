@@ -3,9 +3,6 @@ package com.sandy.threads;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-/**
- * Created by gondals on 18/10/16.
- */
 public class MyBlockingQueueTest {
 
     public static void main(String[] args) {

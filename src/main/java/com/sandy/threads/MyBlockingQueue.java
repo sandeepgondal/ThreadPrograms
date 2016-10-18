@@ -13,7 +13,7 @@ public class MyBlockingQueue <T> {
 
     public void put(T obj) {
         synchronized (dataHolder) {
-            if (dataHolder.isQueueFull()) {
+            if (dataHolder.isFull()) {
                 try {
                     dataHolder.wait();
                 } catch (InterruptedException e) {
@@ -27,7 +27,7 @@ public class MyBlockingQueue <T> {
 
     public T take() {
         synchronized (dataHolder) {
-            if (dataHolder.isQueueEmpty()) {
+            if (dataHolder.isEmpty()) {
                 try {
                     dataHolder.wait();
                 } catch (InterruptedException e) {
@@ -48,11 +48,11 @@ public class MyBlockingQueue <T> {
             this.limit = limit;
         }
 
-        public boolean isQueueEmpty() {
+        public boolean isEmpty() {
             return queue.size() <= 0;
         }
 
-        public boolean isQueueFull() {
+        public boolean isFull() {
             return queue.size() >= limit;
         }
 

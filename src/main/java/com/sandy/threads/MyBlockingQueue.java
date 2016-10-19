@@ -14,7 +14,7 @@ public class MyBlockingQueue <T> {
 
     public void put(T obj) throws InterruptedException {
         synchronized (queue) {
-            if (queue.size() >= limit)
+            while (queue.size() >= limit)
                 queue.wait();
 
             queue.add(obj);
@@ -24,7 +24,7 @@ public class MyBlockingQueue <T> {
 
     public T take() throws InterruptedException {
         synchronized (queue) {
-            if (queue.size() == 0)
+            while (queue.size() == 0)
                 queue.wait();
 
             queue.notifyAll();

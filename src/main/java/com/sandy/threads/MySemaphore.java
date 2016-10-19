@@ -12,17 +12,12 @@ public class MySemaphore {
         this.myLock = new MyLock();
     }
 
-    public void acquire() {
+    public void acquire() throws InterruptedException {
         synchronized (myLock) {
-            if (count < permits) {
-                count++;
-            } else {
-                try {
-                    myLock.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
+            while(count > permits)
+                myLock.wait();
+
+            count++;
         }
     }
 
@@ -44,6 +39,5 @@ public class MySemaphore {
     }
 
     private class MyLock {
-
     }
 }

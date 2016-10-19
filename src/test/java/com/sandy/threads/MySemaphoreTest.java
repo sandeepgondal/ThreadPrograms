@@ -16,7 +16,12 @@ public class MySemaphoreTest {
 
         for (int i = 0; i < 50; i++) {
             new Thread(() -> {
-                semaphore.acquire();
+                try {
+                    semaphore.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 System.out.println("Got Semaphore");
                 sleep();
                 semaphore.release();

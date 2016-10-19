@@ -5,64 +5,30 @@ import java.util.Queue;
 
 public class MyBlockingQueue <T> {
 
-    private DataHolder<T> dataHolder;
+    private int limit;
+    private Queue<T> queue = new ArrayDeque();
 
     public MyBlockingQueue(final int limit) {
-        dataHolder = new DataHolder(limit);
+        this.limit = limit;
     }
 
-    public void put(T obj) {
-        synchronized (dataHolder) {
-            if (dataHolder.isFull()) {
-                try {
-                    dataHolder.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            dataHolder.add(obj);
-            dataHolder.notifyAll();
-        }
-    }
+    public void put(T obj) throws InterruptedException {
+        synchronized (queue) {
+            if (queue.size() >= limit)
+                queue.wait();
 
-    public T take() {
-        synchronized (dataHolder) {
-            if (dataHolder.isEmpty()) {
-                try {
-                    dataHolder.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            T obj = dataHolder.get();
-            dataHolder.notifyAll();
-            return obj;
-        }
-    }
-
-    private class DataHolder <T> {
-        private int limit;
-        private Queue<T> queue = new ArrayDeque<T>();
-
-        public DataHolder(final int limit) {
-            this.limit = limit;
-        }
-
-        public boolean isEmpty() {
-            return queue.size() <= 0;
-        }
-
-        public boolean isFull() {
-            return queue.size() >= limit;
-        }
-
-        public void add(T obj) {
             queue.add(obj);
+            queue.notifyAll();
         }
+    }
 
-        public T get() {
+    public T take() throws InterruptedException {
+        synchronized (queue) {
+            if (queue.size() == 0)
+                queue.wait();
+
+            queue.notifyAll();
             return queue.poll();
         }
     }
-
 }

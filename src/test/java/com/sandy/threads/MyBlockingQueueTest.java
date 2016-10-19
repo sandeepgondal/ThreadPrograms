@@ -17,7 +17,13 @@ public class MyBlockingQueueTest {
         new Thread(() -> {
             for (int i = 0; i < 50; i++) {
                 String data = "String" + i;
-                blockingQueue.put(data);
+
+                try {
+                    blockingQueue.put(data);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
                 System.out.println("Added Object : " + data);
             }
         }).start();
@@ -28,7 +34,11 @@ public class MyBlockingQueueTest {
                 // Consumer is slow
                 sleep();
 
-                System.out.println("Got data : " + blockingQueue.take());
+                try {
+                    System.out.println("Got data : " + blockingQueue.take());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }).start();
     }
